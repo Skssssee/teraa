@@ -18,6 +18,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- ArtPlayer CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+
     <style>
         :root {
             --bg-color: #0b0713;
@@ -420,65 +424,17 @@
             object-fit: contain;
         }
 
-        /* Player Container with custom Play Overlay */
-        .player-wrapper {
-            margin-bottom: 1.5rem;
+        /* ArtPlayer container layout */
+        .artplayer-app {
+            width: 100%;
+            aspect-ratio: 16 / 9;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(139, 92, 246, 0.2);
-            background: #000;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1.5rem;
             display: none;
-            position: relative;
-        }
-
-        video {
-            width: 100%;
-            display: block;
-            outline: none;
-        }
-
-        .play-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: background 0.3s ease;
-        }
-
-        .play-overlay:hover {
-            background: rgba(0, 0, 0, 0.25);
-        }
-
-        .play-btn-circle {
-            width: 68px;
-            height: 68px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px var(--button-glow);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .play-overlay:hover .play-btn-circle {
-            transform: scale(1.15);
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
-        }
-
-        .play-btn-circle svg {
-            fill: white;
-            width: 26px;
-            height: 26px;
-            margin-left: 4px;
+            background: #000;
         }
 
         /* Metadata Grid */
@@ -1120,23 +1076,7 @@
             </div>
         </div>
 
-        <!-- STATISTICS ROW -->
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-number">2.8M+</div>
-                <div class="stat-label">Videos Streamed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">186+</div>
-                <div class="stat-label">Countries Served</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">99.9%</div>
-                <div class="stat-label">Uptime Guaranteed</div>
-            </div>
-        </div>
-
-        <!-- RESOLVED STREAM CARD -->
+        <!-- RESOLVED STREAM CARD (NOW IMMEDIATELY BELOW PLAY VIDEO CARD) -->
         <div id="result-card" class="card">
             <div id="cookie-warning" class="alert-warning">
                 <div class="warning-header-row">
@@ -1164,18 +1104,8 @@
                 </div>
             </div>
 
-            <!-- In-browser Video Player -->
-            <div id="player-container" class="player-wrapper">
-                <video id="video-player" controls preload="metadata">
-                    <source id="video-source" src="" type="video/mp4">
-                    Your browser does not support the HTML5 video player.
-                </video>
-                <div id="video-play-overlay" class="play-overlay" onclick="startVideoPlayback()">
-                    <div class="play-btn-circle">
-                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                </div>
-            </div>
+            <!-- ArtPlayer responsive container -->
+            <div id="artplayer-container" class="artplayer-app"></div>
 
             <!-- Fallback Static Thumbnail -->
             <div id="thumb-container" class="thumbnail-container">
@@ -1213,6 +1143,22 @@
                 <div id="file-list-wrapper" class="file-list">
                     <!-- Dynamic File Items injected here -->
                 </div>
+            </div>
+        </div>
+
+        <!-- STATISTICS ROW -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number">2.8M+</div>
+                <div class="stat-label">Videos Streamed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">186+</div>
+                <div class="stat-label">Countries Served</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime Guaranteed</div>
             </div>
         </div>
 
@@ -1456,6 +1402,7 @@
         let currentFilename = "video.mp4";
         let fileList = [];
         let API_BASE_URL = localStorage.getItem('koyeb_api_url') || '';
+        let art = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             const storedUrl = localStorage.getItem('koyeb_api_url') || '';
@@ -1526,6 +1473,65 @@
             document.getElementById('error-alert').style.display = 'none';
         }
 
+        function initArtPlayer(url) {
+            // Destroy existing instance if any
+            if (art) {
+                art.destroy(true);
+            }
+            
+            document.getElementById('artplayer-container').style.display = 'block';
+            
+            art = new Artplayer({
+                container: '#artplayer-container',
+                url: url,
+                type: 'mp4',
+                autoplay: false,
+                isLive: false,
+                aspectRatio: true,
+                screenshot: false,
+                setting: true,
+                loop: false,
+                flip: true,
+                playbackRate: true,
+                fullscreen: true,
+                fullscreenWeb: false,
+                subtitleOffset: true,
+                miniPlayer: false,
+                mutex: true,
+                backdrop: true,
+                playsInline: true,
+                autoPlayback: true,
+                airplay: true,
+                theme: '#8b5cf6',
+                moreVideoAttr: {
+                    crossOrigin: 'anonymous',
+                },
+                quality: [
+                    {
+                        default: true,
+                        html: 'Auto (Original)',
+                        url: url,
+                    },
+                    {
+                        html: '1080p',
+                        url: url,
+                    },
+                    {
+                        html: '720p',
+                        url: url,
+                    },
+                    {
+                        html: '480p',
+                        url: url,
+                    },
+                    {
+                        html: '360p',
+                        url: url,
+                    }
+                ],
+            });
+        }
+
         async function resolveLink() {
             const urlInput = document.getElementById('terabox-url').value.trim();
             const ndusInput = document.getElementById('ndus-cookie').value.trim();
@@ -1534,6 +1540,12 @@
             localStorage.setItem('koyeb_api_url', koyebApiInput);
             API_BASE_URL = koyebApiInput;
             updateAdminLink();
+            
+            if (art) {
+                art.destroy(true);
+                art = null;
+            }
+            document.getElementById('artplayer-container').style.display = 'none';
             
             if (!urlInput) {
                 showError("Please enter a valid TeraBox shared link.");
@@ -1544,9 +1556,6 @@
             document.getElementById('result-card').style.display = 'none';
             document.getElementById('loading').style.display = 'flex';
             document.getElementById('btn-resolve').disabled = true;
-
-            const videoPlayer = document.getElementById('video-player');
-            videoPlayer.pause();
 
             try {
                 const fetchUrl = `${API_BASE_URL}/api/resolve?url=${encodeURIComponent(urlInput)}&ndus=${encodeURIComponent(ndusInput)}`;
@@ -1626,27 +1635,6 @@
             }
         }
 
-        function startVideoPlayback() {
-            const videoPlayer = document.getElementById('video-player');
-            videoPlayer.play();
-        }
-
-        // Add event listeners to control play overlay display
-        const videoPlayer = document.getElementById('video-player');
-        const playOverlay = document.getElementById('video-play-overlay');
-
-        videoPlayer.addEventListener('play', () => {
-            playOverlay.style.display = 'none';
-        });
-
-        videoPlayer.addEventListener('pause', () => {
-            playOverlay.style.display = 'flex';
-        });
-
-        videoPlayer.addEventListener('ended', () => {
-            playOverlay.style.display = 'flex';
-        });
-
         function selectFile(index) {
             const file = fileList[index];
             if (!file) return;
@@ -1690,26 +1678,24 @@
                 document.getElementById('meta-duration').innerText = "N/A";
             }
 
-            const playerContainer = document.getElementById('player-container');
+            const playerContainer = document.getElementById('artplayer-container');
             const thumbContainer = document.getElementById('thumb-container');
             const thumbImg = document.getElementById('res-thumbnail');
             const cookieWarning = document.getElementById('cookie-warning');
-
-            // Pause existing video playback
-            videoPlayer.pause();
 
             if (isVideo && resolvedDlink) {
                 cookieWarning.style.display = 'none';
                 const proxyStreamUrl = resolvedDlink.startsWith('http') ? resolvedDlink : API_BASE_URL + resolvedDlink;
                 
-                const source = document.getElementById('video-source');
-                source.src = proxyStreamUrl;
-                videoPlayer.load();
-                
-                playerContainer.style.display = 'block';
                 thumbContainer.style.display = 'none';
-                playOverlay.style.display = 'flex'; // Reset overlay for the new video
+                
+                // Initialize ArtPlayer
+                initArtPlayer(proxyStreamUrl);
             } else {
+                if (art) {
+                    art.destroy(true);
+                    art = null;
+                }
                 playerContainer.style.display = 'none';
                 thumbContainer.style.display = 'flex';
                 
