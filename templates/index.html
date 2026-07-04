@@ -207,34 +207,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Feature badges list below input */
-        .feature-badge-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .feature-badge {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            padding: 0.35rem 0.75rem;
-            font-size: 0.775rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .feature-badge svg {
-            width: 12px;
-            height: 12px;
-            fill: var(--success);
-        }
-
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -272,30 +244,6 @@
             border-color: #8b5cf6;
             box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
             background: rgba(0, 0, 0, 0.5);
-        }
-
-        .advanced-toggle {
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            margin-bottom: 1rem;
-            user-select: none;
-            transition: color 0.2s;
-        }
-
-        .advanced-toggle:hover {
-            color: #ec4899;
-        }
-
-        .advanced-panel {
-            display: none;
-            border-top: 1px dashed rgba(255, 255, 255, 0.05);
-            padding-top: 1.25rem;
-            margin-top: 0.5rem;
-            animation: slideDown 0.3s ease-out;
         }
 
         .btn {
@@ -424,7 +372,7 @@
             object-fit: contain;
         }
 
-        /* ArtPlayer container layout */
+        /* ArtPlayer responsive container */
         .artplayer-app {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -1022,30 +970,6 @@
                 </div>
             </div>
 
-            <div class="advanced-toggle" onclick="toggleAdvanced()">
-                <svg id="advanced-arrow" width="12" height="12" viewBox="0 0 24 24" style="transition: transform 0.2s; transform: rotate(0deg); fill: currentColor;">
-                    <path d="M7 10l5 5 5-5z"/>
-                </svg>
-                <span>Advanced settings (API Configuration)</span>
-            </div>
-
-            <div id="advanced-panel" class="advanced-panel">
-                <div class="form-group">
-                    <label for="ndus-cookie">Session Cookie (ndus)</label>
-                    <input type="text" id="ndus-cookie" class="input-control" placeholder="Enter your ndus session cookie" value="">
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; font-style: italic;">
-                        If you leave this blank, folder files will resolve, but playing/downloading requires your active ndus token.
-                    </p>
-                </div>
-                <div class="form-group" style="margin-top: 1rem;">
-                    <label for="koyeb-api-url">API Endpoint URL</label>
-                    <input type="text" id="koyeb-api-url" class="input-control" placeholder="https://your-backend.koyeb.app" value="">
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; font-style: italic;">
-                        If hosting on Vercel, enter your Railway or Koyeb backend API URL base here. Keep empty when running locally.
-                    </p>
-                </div>
-            </div>
-
             <button id="btn-resolve" class="btn" onclick="resolveLink()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 <span>Play Video</span>
@@ -1055,38 +979,16 @@
                 <div class="spinner"></div>
                 <div class="loading-text">Resolving secure TeraBox direct stream URL...</div>
             </div>
-
-            <div class="feature-badge-row">
-                <div class="feature-badge">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                    <span>No Login Required</span>
-                </div>
-                <div class="feature-badge">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                    <span>HD Streaming</span>
-                </div>
-                <div class="feature-badge">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                    <span>Secure & Private</span>
-                </div>
-                <div class="feature-badge">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                    <span>Mobile Ready</span>
-                </div>
-            </div>
         </div>
 
-        <!-- RESOLVED STREAM CARD (NOW IMMEDIATELY BELOW PLAY VIDEO CARD) -->
+        <!-- RESOLVED STREAM CARD -->
         <div id="result-card" class="card">
             <div id="cookie-warning" class="alert-warning">
                 <div class="warning-header-row">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                    <span>Direct streaming is locked without cookies on external sites. You have two options:</span>
+                    <span>Direct streaming is locked without cookies. Click below to watch immediately in your browser on the official player:</span>
                 </div>
                 <div style="margin-left: 2rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; width: calc(100% - 2rem);">
-                    <p>Option 1: Paste your <strong>ndus</strong> cookie in <strong>Advanced settings</strong> above and click <strong>Play Video</strong> again to play/download directly here.</p>
-                    <p>Option 2: Watch immediately in your browser on the official guest player (no login or cookies required) by clicking the button below:</p>
-                    
                     <button class="btn btn-outline" onclick="openOfficialPlayer()" style="margin-top: 0.5rem; border-color: var(--warning); color: #fef08a; background: rgba(245, 158, 11, 0.05); align-self: flex-start; width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem; border-radius: 8px;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none; stroke:#fef08a;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
                         <span style="margin-left: 0.25rem;">Watch on TeraBox Player</span>
@@ -1397,19 +1299,18 @@
     </div>
 
     <script>
-        let isAdvancedOpen = false;
         let resolvedDlink = "";
         let currentFilename = "video.mp4";
         let fileList = [];
-        let API_BASE_URL = localStorage.getItem('koyeb_api_url') || '';
         let art = null;
 
+        // Auto-detect backend host
+        let API_BASE_URL = "https://web-production-bff2d.up.railway.app";
+        if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+            API_BASE_URL = "";
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            const storedUrl = localStorage.getItem('koyeb_api_url') || '';
-            const inputField = document.getElementById('koyeb-api-url');
-            if (inputField) {
-                inputField.value = storedUrl;
-            }
             updateAdminLink();
         });
 
@@ -1417,20 +1318,6 @@
             const adminLink = document.getElementById('admin-link');
             if (adminLink) {
                 adminLink.href = (API_BASE_URL || window.location.origin) + "/admin123";
-            }
-        }
-
-        function toggleAdvanced() {
-            const panel = document.getElementById('advanced-panel');
-            const arrow = document.getElementById('advanced-arrow');
-            isAdvancedOpen = !isAdvancedOpen;
-            
-            if (isAdvancedOpen) {
-                panel.style.display = 'block';
-                arrow.style.transform = 'rotate(180deg)';
-            } else {
-                panel.style.display = 'none';
-                arrow.style.transform = 'rotate(0deg)';
             }
         }
 
@@ -1474,7 +1361,6 @@
         }
 
         function initArtPlayer(url) {
-            // Destroy existing instance if any
             if (art) {
                 art.destroy(true);
             }
@@ -1534,12 +1420,7 @@
 
         async function resolveLink() {
             const urlInput = document.getElementById('terabox-url').value.trim();
-            const ndusInput = document.getElementById('ndus-cookie').value.trim();
-            const koyebApiInput = document.getElementById('koyeb-api-url').value.trim();
-            
-            localStorage.setItem('koyeb_api_url', koyebApiInput);
-            API_BASE_URL = koyebApiInput;
-            updateAdminLink();
+            const ndusInput = "";
             
             if (art) {
                 art.destroy(true);
@@ -1719,7 +1600,7 @@
 
         function downloadFileProxy() {
             if (!resolvedDlink) {
-                showError("To play or download this video, please paste your ndus cookie in Advanced Settings and click Resolve TeraBox Link again.");
+                showError("To play or download this video, please authenticate via cookie pool.");
                 return;
             }
             const proxyDlUrl = (resolvedDlink.startsWith('http') ? resolvedDlink : API_BASE_URL + resolvedDlink) + "&mode=attachment";
