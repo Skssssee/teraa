@@ -313,16 +313,16 @@
 
         .file-header {
             display: flex;
-            align-items: flex-start;
-            gap: 1.25rem;
-            margin-bottom: 1.5rem;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .file-icon {
-            width: 54px;
-            height: 54px;
+            width: 46px;
+            height: 46px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -331,8 +331,8 @@
         }
 
         .file-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             fill: #8b5cf6;
         }
 
@@ -342,17 +342,10 @@
         }
 
         .file-name {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--text-primary);
             word-wrap: break-word;
-            margin-bottom: 0.25rem;
-        }
-
-        .file-size {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
         }
 
         .thumbnail-container {
@@ -375,6 +368,7 @@
         /* ArtPlayer responsive container */
         .artplayer-app {
             width: 100%;
+            max-width: 100%;
             aspect-ratio: 16 / 9;
             border-radius: 16px;
             overflow: hidden;
@@ -867,6 +861,20 @@
             display: block;
         }
 
+        /* Responsive Breakpoints */
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.25rem;
+                border-radius: 18px;
+            }
+            .artplayer-app {
+                aspect-ratio: 16 / 9;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+        }
+
         /* Animations */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -966,7 +974,7 @@
             <div class="form-group">
                 <label for="terabox-url">Paste your TeraBox link here</label>
                 <div class="input-wrapper">
-                    <input type="text" id="terabox-url" class="input-control" placeholder="https://1024terabox.com/s/1tRNgRcUNrNHvt8SyRIZtNA" value="https://www.terabox.app/sharing/link?surl=C2vi23DliOUVVyJ-VvCNdw">
+                    <input type="text" id="terabox-url" class="input-control" placeholder="https://1024terabox.com/s/1tRNgRcUNrNHvt8SyRIZtNA" value="">
                 </div>
             </div>
 
@@ -996,22 +1004,37 @@
                 </div>
             </div>
 
+            <!-- ArtPlayer responsive container (Top) -->
+            <div id="artplayer-container" class="artplayer-app"></div>
+
+            <!-- Fallback Static Thumbnail (Top) -->
+            <div id="thumb-container" class="thumbnail-container">
+                <img id="res-thumbnail" class="thumbnail-img" src="" alt="File Thumbnail">
+            </div>
+
+            <!-- File Name Header (Below Player) -->
             <div class="file-header">
                 <div class="file-icon">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
                 </div>
                 <div class="file-title-container">
                     <div id="res-filename" class="file-name">loading...</div>
-                    <div id="res-filesize" class="file-size">loading...</div>
                 </div>
             </div>
 
-            <!-- ArtPlayer responsive container -->
-            <div id="artplayer-container" class="artplayer-app"></div>
-
-            <!-- Fallback Static Thumbnail -->
-            <div id="thumb-container" class="thumbnail-container">
-                <img id="res-thumbnail" class="thumbnail-img" src="" alt="File Thumbnail">
+            <!-- Share and Bookmark Action Buttons Row (Below title) -->
+            <div class="action-buttons-row" style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <div id="res-filesize" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600; border-radius: 12px; color: var(--text-secondary); text-align: center; min-width: 90px; height: 42px; display: flex; align-items: center; justify-content: center;">-</div>
+                
+                <button class="btn btn-share" onclick="shareVideoLink()" style="flex: 1; min-width: 120px; height: 42px; background: #2563eb; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 600; margin: 0; padding: 0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                    <span>Share</span>
+                </button>
+                
+                <button class="btn btn-bookmark" onclick="bookmarkVideo()" style="flex: 1; min-width: 120px; height: 42px; background: rgba(5, 150, 105, 0.1); border: 2px solid #059669; color: #34d399; box-shadow: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 600; margin: 0; padding: 0;" onmouseover="this.style.background='rgba(5, 150, 105, 0.2)';" onmouseout="this.style.background='rgba(5, 150, 105, 0.1)';">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    <span>Bookmark</span>
+                </button>
             </div>
 
             <div class="meta-grid">
@@ -1310,7 +1333,6 @@
             API_BASE_URL = "";
         }
 
-        // URL parameter override (?api=https://...)
         const urlParams = new URLSearchParams(window.location.search);
         const apiParam = urlParams.get('api');
         if (apiParam) {
@@ -1319,6 +1341,13 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateAdminLink();
+            
+            // Auto-resolve link if passed in URL query
+            const urlInputParam = urlParams.get('url');
+            if (urlInputParam) {
+                document.getElementById('terabox-url').value = urlInputParam;
+                resolveLink();
+            }
         });
 
         function updateAdminLink() {
@@ -1379,6 +1408,7 @@
                 url: url,
                 type: 'mp4',
                 autoplay: false,
+                autoSize: true,
                 isLive: false,
                 aspectRatio: true,
                 screenshot: false,
@@ -1420,6 +1450,57 @@
                     {
                         html: '360p',
                         url: url,
+                    }
+                ],
+                controls: [
+                    {
+                        name: 'pip',
+                        position: 'right',
+                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><rect x="14" y="14" width="8" height="8" rx="1" ry="1"/></svg>',
+                        tooltip: 'Pop Out (PiP)',
+                        click: function () {
+                            art.pip = !art.pip;
+                        }
+                    },
+                    {
+                        name: 'flipX',
+                        position: 'right',
+                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M2 22v-20M22 22v-20M12 2v20M7 8l-3 4 3 4M17 8l3 4-3 4"/></svg>',
+                        tooltip: 'Flip Horizontal',
+                        click: function () {
+                            let fx = !(art.storage.get('flipX') || false);
+                            art.storage.set('flipX', fx);
+                            let r = art.storage.get('rotate') || 0;
+                            let fy = art.storage.get('flipY') || false;
+                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
+                        }
+                    },
+                    {
+                        name: 'flipY',
+                        position: 'right',
+                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M22 2v20M2 2v20M2 12h20M8 7l4-3 4 3M8 17l4 3 4-3"/></svg>',
+                        tooltip: 'Flip Vertical',
+                        click: function () {
+                            let fy = !(art.storage.get('flipY') || false);
+                            art.storage.set('flipY', fy);
+                            let r = art.storage.get('rotate') || 0;
+                            let fx = art.storage.get('flipX') || false;
+                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
+                        }
+                    },
+                    {
+                        name: 'rotate',
+                        position: 'right',
+                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>',
+                        tooltip: 'Rotate 90°',
+                        click: function () {
+                            let r = (art.storage.get('rotate') || 0) + 90;
+                            if (r >= 360) r = 0;
+                            art.storage.set('rotate', r);
+                            let fx = art.storage.get('flipX') || false;
+                            let fy = art.storage.get('flipY') || false;
+                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
+                        }
                     }
                 ],
             });
@@ -1622,6 +1703,28 @@
             } else {
                 showError("No link resolved yet.");
             }
+        }
+
+        function shareVideoLink() {
+            const urlInput = document.getElementById('terabox-url').value.trim();
+            if (!urlInput) return;
+            const shareUrl = window.location.origin + "/?url=" + encodeURIComponent(urlInput);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Mizofy TeraBox Player',
+                    text: 'Watch this video online instantly on Mizofy:',
+                    url: shareUrl
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    showToast("Share link copied to clipboard!");
+                });
+            }
+        }
+
+        function bookmarkVideo() {
+            showToast("Press Ctrl+D (Cmd+D on Mac) to bookmark Mizofy!");
         }
     </script>
 </body>
