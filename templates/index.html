@@ -365,11 +365,12 @@
             object-fit: contain;
         }
 
-        /* ArtPlayer responsive container */
-        .artplayer-app {
+        /* Responsive 16:9 Video Wrapper Trick */
+        .player-container-wrapper {
             width: 100%;
-            max-width: 100%;
-            aspect-ratio: 16 / 9;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 ratio */
+            height: 0;
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(139, 92, 246, 0.2);
@@ -377,6 +378,14 @@
             margin-bottom: 1.5rem;
             display: none;
             background: #000;
+        }
+
+        .artplayer-app {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         /* Metadata Grid */
@@ -867,9 +876,6 @@
                 padding: 1.25rem;
                 border-radius: 18px;
             }
-            .artplayer-app {
-                aspect-ratio: 16 / 9;
-            }
             .hero-title {
                 font-size: 2.2rem;
             }
@@ -1004,8 +1010,10 @@
                 </div>
             </div>
 
-            <!-- ArtPlayer responsive container (Top) -->
-            <div id="artplayer-container" class="artplayer-app"></div>
+            <!-- Responsive 16:9 Video Wrapper (Top) -->
+            <div id="player-container-wrapper" class="player-container-wrapper">
+                <div id="artplayer-container" class="artplayer-app"></div>
+            </div>
 
             <!-- Fallback Static Thumbnail (Top) -->
             <div id="thumb-container" class="thumbnail-container">
@@ -1211,10 +1219,9 @@
             <p class="section-subtitle">Mizofy works with every regional TeraBox mirror and link format.</p>
             
             <div class="mirror-grid">
-                <div class="mirror-card">
-                    <div class="mirror-icon">🌐</div>
-                    <div class="mirror-name">terabox.com</div>
-                </div>
+                <div class="mirror-icon">🌐</div>
+                <div class="mirror-name">terabox.com</div>
+            </div>
                 <div class="mirror-card">
                     <div class="mirror-icon">📱</div>
                     <div class="mirror-name">teraboxapp.com</div>
@@ -1401,14 +1408,13 @@
                 art.destroy(true);
             }
             
-            document.getElementById('artplayer-container').style.display = 'block';
+            document.getElementById('player-container-wrapper').style.display = 'block';
             
             art = new Artplayer({
                 container: '#artplayer-container',
                 url: url,
                 type: 'mp4',
                 autoplay: false,
-                autoSize: true,
                 isLive: false,
                 aspectRatio: true,
                 screenshot: false,
@@ -1417,7 +1423,7 @@
                 flip: true,
                 playbackRate: true,
                 fullscreen: true,
-                fullscreenWeb: false,
+                fullscreenWeb: true,
                 subtitleOffset: true,
                 miniPlayer: false,
                 mutex: true,
@@ -1463,32 +1469,6 @@
                         }
                     },
                     {
-                        name: 'flipX',
-                        position: 'right',
-                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M2 22v-20M22 22v-20M12 2v20M7 8l-3 4 3 4M17 8l3 4-3 4"/></svg>',
-                        tooltip: 'Flip Horizontal',
-                        click: function () {
-                            let fx = !(art.storage.get('flipX') || false);
-                            art.storage.set('flipX', fx);
-                            let r = art.storage.get('rotate') || 0;
-                            let fy = art.storage.get('flipY') || false;
-                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
-                        }
-                    },
-                    {
-                        name: 'flipY',
-                        position: 'right',
-                        html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M22 2v20M2 2v20M2 12h20M8 7l4-3 4 3M8 17l4 3 4-3"/></svg>',
-                        tooltip: 'Flip Vertical',
-                        click: function () {
-                            let fy = !(art.storage.get('flipY') || false);
-                            art.storage.set('flipY', fy);
-                            let r = art.storage.get('rotate') || 0;
-                            let fx = art.storage.get('flipX') || false;
-                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
-                        }
-                    },
-                    {
                         name: 'rotate',
                         position: 'right',
                         html: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>',
@@ -1497,9 +1477,7 @@
                             let r = (art.storage.get('rotate') || 0) + 90;
                             if (r >= 360) r = 0;
                             art.storage.set('rotate', r);
-                            let fx = art.storage.get('flipX') || false;
-                            let fy = art.storage.get('flipY') || false;
-                            art.template.$video.style.transform = `rotate(${r}deg) scaleX(${fx ? -1 : 1}) scaleY(${fy ? -1 : 1})`;
+                            art.template.$video.style.transform = `rotate(${r}deg)`;
                         }
                     }
                 ],
@@ -1514,7 +1492,7 @@
                 art.destroy(true);
                 art = null;
             }
-            document.getElementById('artplayer-container').style.display = 'none';
+            document.getElementById('player-container-wrapper').style.display = 'none';
             
             if (!urlInput) {
                 showError("Please enter a valid TeraBox shared link.");
@@ -1647,7 +1625,7 @@
                 document.getElementById('meta-duration').innerText = "N/A";
             }
 
-            const playerContainer = document.getElementById('artplayer-container');
+            const playerContainer = document.getElementById('player-container-wrapper');
             const thumbContainer = document.getElementById('thumb-container');
             const thumbImg = document.getElementById('res-thumbnail');
             const cookieWarning = document.getElementById('cookie-warning');
