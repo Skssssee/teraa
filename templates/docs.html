@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeraStream API Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0713;
+            --card-bg: rgba(20, 15, 30, 0.6);
+            --border-color: rgba(139, 92, 246, 0.15);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --accent-purple: #a78bfa;
+            --accent-pink: #f472b6;
+            --code-bg: #140e21;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            background: rgba(15, 10, 25, 0.8);
+            border-right: 1px solid var(--border-color);
+            padding: 2.5rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon svg {
+            fill: white;
+            width: 16px;
+            height: 16px;
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            font-size: 0.925rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-pink);
+        }
+
+        .nav-link.active {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        /* Main Content Panel */
+        main {
+            margin-left: 280px;
+            padding: 4rem 3rem;
+            flex-grow: 1;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .endpoint-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 1rem;
+        }
+
+        .method {
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .method-get {
+            background: #10b981;
+        }
+
+        .method-post {
+            background: #3b82f6;
+        }
+
+        .method-delete {
+            background: #ef4444;
+        }
+
+        .path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .endpoint-desc {
+            font-size: 0.975rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Params Table */
+        .params-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td.param-name {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-purple);
+            font-weight: 500;
+        }
+
+        td.param-type {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        td.param-req {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Code Block Styling */
+        .code-container {
+            margin-top: 1.5rem;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-tab {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px 6px 0 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .code-tab.active {
+            background: var(--code-bg);
+            border-color: var(--border-color);
+            color: var(--accent-purple);
+            border-bottom-color: transparent;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0 12px 12px 12px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .json-key { color: #f472b6; }
+        .json-val { color: #34d399; }
+        .json-num { color: #fbbf24; }
+        .json-bool { color: #60a5fa; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <span class="brand-name">TeraStream API</span>
+        </div>
+
+        <div class="nav-section-title">Getting Started</div>
+        <a href="#overview" class="nav-link active">Overview</a>
+        <a href="#auth" class="nav-link">Authentication</a>
+
+        <div class="nav-section-title">Core Endpoints</div>
+        <a href="#resolve" class="nav-link">Resolve Shared Link</a>
+        <a href="#download" class="nav-link">Stream / Download File</a>
+        <a href="#thumbnail" class="nav-link">Proxy Thumbnail</a>
+
+        <div class="nav-section-title">Admin Management</div>
+        <a href="#cookies" class="nav-link">Manage Cookie Pool</a>
+    </aside>
+
+    <main>
+        <section id="overview" style="margin-bottom: 4rem;">
+            <h1>API Documentation</h1>
+            <p>
+                Welcome to the TeraStream REST API. This API allows you to resolve TeraBox shared links, stream files with range seek support, and manage account session cookies. The API is cross-origin resource sharing (CORS) compatible, meaning you can easily connect your Hostinger websites, custom landing pages, or mobile apps directly to this backend!
+            </p>
+        </section>
+
+        <!-- RESOLVE LINK -->
+        <div class="endpoint-card" id="resolve">
+            <div class="endpoint-header">
+                <span class="method method-get">GET</span>
+                <span class="path">/api/resolve</span>
+            </div>
+            <div class="endpoint-desc">
+                Resolves a shared TeraBox link. Iterates through the active session cookies pool automatically, bypasses captcha/rate-limit blocks, masks streams, and returns a structured list of files.
+            </div>
+
+            <div class="params-title">Query Parameters</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="param-name">url</td>
+                        <td class="param-type">string</td>
+                        <td class="param-req">Yes</td>
+                        <td>The shared TeraBox URL (e.g. 1024terabox.com/s/...). Supports all domain aliases.</td>
+                    </tr>
+                    <tr>
+                        <td class="param-name">ndus</td>
+                        <td class="param-type">string</td>
+                        <td class="param-req">No</td>
+                        <td>Optional manual ndus cookie to bypass the database cookie pool.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="params-title">Example Response</div>
+            <pre><code>{
+  <span class="json-key">"errno"</span>: <span class="json-num">0</span>,
+  <span class="json-key">"list"</span>: [
+    {
+      <span class="json-key">"server_filename"</span>: <span class="json-val">"movie.mp4"</span>,
+      <span class="json-key">"size"</span>: <span class="json-val">"154329291"</span>,
+      <span class="json-key">"category"</span>: <span class="json-val">"1"</span>,
+      <span class="json-key">"duration"</span>: <span class="json-val">"3600"</span>,
+      <span class="json-key">"dlink"</span>: <span class="json-val">"/api/download?id=fa15f88b76934f5ba0ebf88e57fd7750"</span>,
+      <span class="json-key">"thumbs"</span>: {
+        <span class="json-key">"url3"</span>: <span class="json-val">"/api/thumbnail?id=836651b2b8cc4e7b951cd3c7b4499b8f"</span>
+      }
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <!-- DOWNLOAD STREAM -->
+        <div class="endpoint-card" id="download">
+            <div class="endpoint-header">
+                <span class="method method-get">GET</span>
+                <span class="path">/api/download</span>
+            </div>
+            <div class="endpoint-desc">
+                Streams or downloads the binary file content. Supports HTTP Range requests (status 206) for seekable video playback.
+            </div>
+
+            <div class="params-title">Query Parameters</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="param-name">id</td>
+                        <td class="param-type">string</td>
+                        <td class="param-req">Yes</td>
+                        <td>The secure UUID token generated during link resolution.</td>
+                    </tr>
+                    <tr>
+                        <td class="param-name">mode</td>
+                        <td class="param-type">string</td>
+                        <td class="param-req">No</td>
+                        <td>Set to <code>attachment</code> to force a browser download (Content-Disposition).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="params-title">Supported Headers</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Header</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="param-name">Range</td>
+                        <td class="param-type">bytes=X-Y</td>
+                        <td>Required for seekable video player controls. App forwards range headers to TeraBox CDN.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PROXY THUMBNAIL -->
+        <div class="endpoint-card" id="thumbnail">
+            <div class="endpoint-header">
+                <span class="method method-get">GET</span>
+                <span class="path">/api/thumbnail</span>
+            </div>
+            <div class="endpoint-desc">
+                Fetches and proxies thumbnail images from TeraBox servers. Ensures your visitors can see video previews without exposing your active session keys in raw image source logs.
+            </div>
+
+            <div class="params-title">Query Parameters</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="param-name">id</td>
+                        <td class="param-type">string</td>
+                        <td class="param-req">Yes</td>
+                        <td>The secure thumbnail token.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- COOKIES ADMIN -->
+        <div class="endpoint-card" id="cookies">
+            <div class="endpoint-header">
+                <span class="method method-get">GET</span>
+                <span class="path" style="font-size: 1.05rem;">/api/admin/cookies</span>
+            </div>
+            <div class="endpoint-desc">
+                Protected with Basic Authentication (<code>admin123</code> / <code>suman821310</code>). Retrieves all session items, active rate-limit status, and configurations from the database.
+                <br><br>
+                *Supports POST (with <code>action: "add" / "update" / "delete"</code>) and DELETE (to purge pool).
+            </div>
+
+            <div class="params-title">CORS Integration Example (Hostinger / Javascript)</div>
+            <pre><code><span class="json-key">const</span> API_BASE = <span class="json-val">"https://your-koyeb-backend.koyeb.app"</span>;
+<span class="json-key">const</span> headers = {
+  <span class="json-key">"Authorization"</span>: <span class="json-val">"Basic "</span> + btoa(<span class="json-val">"admin123:suman821310"</span>),
+  <span class="json-key">"Content-Type"</span>: <span class="json-val">"application/json"</span>
+};
+
+<span class="json-key">const</span> r = <span class="json-key">await</span> fetch(`${API_BASE}/api/admin/cookies`, { headers });
+<span class="json-key">const</span> data = <span class="json-key">await</span> r.json();
+console.log(<span class="json-val">"Cookie Pool:"</span>, data.pool);</code></pre>
+        </div>
+    </main>
+
+    <script>
+        // Active Navigation Scrollspy
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.endpoint-card, section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = 'overview';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -253,6 +253,10 @@ def load_cookies_into_session(session, cookie_input, domain):
 def index():
     return render_template('index.html')
 
+@app.route('/docs')
+def api_docs():
+    return render_template('docs.html')
+
 @app.route('/admin123')
 @requires_auth
 def admin():
