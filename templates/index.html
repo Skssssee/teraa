@@ -1310,6 +1310,13 @@
             API_BASE_URL = "";
         }
 
+        // URL parameter override (?api=https://...)
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiParam = urlParams.get('api');
+        if (apiParam) {
+            API_BASE_URL = apiParam;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             updateAdminLink();
         });
