@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeraStream - Premium TeraBox Downloader & Streamer</title>
+    <title>Mizofy — TeraBox Player Online - Play TeraBox Video Free</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Mizofy is the fastest free TeraBox player online. Paste any TeraBox link and stream videos instantly in HD with no app download, no login, and no wait. Optimized for mobile, USA, Canada & UK.">
+    <meta name="keywords" content="terabox downloader, terabox video downloader, download terabox video without app, terabox link bypass online, terabox online player without download, high speed terabox link downloader, terabox link open online, nephobox link downloader, 1024terabox downloader">
+    <meta name="robots" content="index, follow">
+    
+    <!-- OpenGraph Tags -->
+    <meta property="og:title" content="Mizofy — TeraBox Player Online - Play TeraBox Video Free">
+    <meta property="og:description" content="Watch TeraBox videos online instantly in HD without downloading the app. Free, secure, and compatible with all mobile devices.">
+    <meta property="og:type" content="website">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -44,36 +55,46 @@
             text-align: center;
             margin-bottom: 2.5rem;
             animation: fadeInDown 0.8s ease-out;
+            width: 100%;
+            max-width: 800px;
         }
 
-        .logo-container {
+        /* Top Navbar */
+        .navbar {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
             gap: 0.75rem;
-            margin-bottom: 0.5rem;
         }
 
-        .logo-icon {
-            width: 42px;
-            height: 42px;
+        .brand-icon {
+            width: 38px;
+            height: 38px;
             background: var(--primary-gradient);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px var(--button-glow);
+            box-shadow: 0 0 15px var(--button-glow);
         }
 
-        .logo-icon svg {
+        .brand-icon svg {
             fill: white;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
         }
 
-        h1 {
+        .brand-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
@@ -81,11 +102,46 @@
             letter-spacing: -0.5px;
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.925rem;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .tagline {
             color: var(--text-secondary);
-            font-size: 1.05rem;
-            margin-top: 0.25rem;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
             font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         main {
@@ -93,7 +149,7 @@
             max-width: 800px;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 2.5rem;
             animation: fadeInUp 0.8s ease-out;
         }
 
@@ -111,6 +167,68 @@
         .card:hover {
             border-color: var(--border-glow);
             box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.85rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.15rem;
+        }
+
+        .stat-label {
+            font-size: 0.775rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Feature badges list below input */
+        .feature-badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.775rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .feature-badge svg {
+            width: 12px;
+            height: 12px;
+            fill: var(--success);
         }
 
         .form-group {
@@ -395,7 +513,6 @@
             color: var(--text-primary);
         }
 
-        /* Button Grid */
         .btn-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -623,6 +740,229 @@
             transform: translateY(0);
         }
 
+        /* Process Guide Section */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .process-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .process-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-heading {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Why Choose Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.75rem;
+            text-align: left;
+        }
+
+        .feature-icon-box {
+            width: 44px;
+            height: 44px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            color: var(--accent-purple);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Competitor Table */
+        .comp-table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        table.comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.2);
+            min-width: 600px;
+        }
+
+        table.comp-table th, table.comp-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        table.comp-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        table.comp-table td.feature-name {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table.comp-table td.mizofy-col {
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.04);
+            color: #34d399;
+        }
+
+        /* Mirrors Grid */
+        .mirror-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+        }
+
+        .mirror-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .mirror-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.25);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .mirror-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mirror-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* FAQ Accordion */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(139, 92, 246, 0.25);
+        }
+
+        .faq-question {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .faq-question svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--text-secondary);
+            transition: transform 0.2s;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 0.75rem;
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            border-top: 1px dashed rgba(255,255,255,0.05);
+            padding-top: 0.75rem;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+            fill: #ec4899;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
         /* Animations */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -650,39 +990,77 @@
         }
 
         footer {
-            margin-top: auto;
-            padding: 2rem 0 1rem;
+            margin-top: 4rem;
+            padding: 3rem 0 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            border-top: 1px solid rgba(255,255,255,0.05);
             text-align: center;
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 0.8rem;
-            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.15);
+            line-height: 1.5;
+            margin-top: 1.5rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <div class="navbar">
+            <div class="brand-container">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span class="brand-name">Mizofy</span>
             </div>
-            <h1>TeraStream</h1>
-            <a id="admin-link" href="/admin123" title="Admin Settings" style="margin-left: 0.5rem; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); transition: all 0.3s; text-decoration: none;" onmouseover="this.style.background='rgba(139, 92, 246, 0.2)'; this.style.borderColor='rgba(139, 92, 246, 0.4)'; this.style.color='white';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.color='var(--text-secondary)';">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-            </a>
+            <div class="nav-links">
+                <a href="#overview" class="nav-item">Home</a>
+                <a href="#how-to-play" class="nav-item">How it Works</a>
+                <a href="#why-choose" class="nav-item">Features</a>
+                <a href="#faq" class="nav-item">FAQ</a>
+                <a id="admin-link" href="/admin123" title="Admin Settings" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); transition: all 0.3s; text-decoration: none;" onmouseover="this.style.background='rgba(139, 92, 246, 0.2)'; this.style.borderColor='rgba(139, 92, 246, 0.4)'; this.style.color='white';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.color='var(--text-secondary)';">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </a>
+            </div>
         </div>
-        <p class="tagline">Premium Direct Link Downloader & Video Player for TeraBox</p>
+
+        <h1 class="hero-title">Mizofy — <span>TeraBox Player</span></h1>
+        <p class="tagline">Play TeraBox videos online instantly in HD quality. No app download, no registration, no waiting — paste and stream now.</p>
     </header>
 
     <main>
-        <div class="card">
+        <!-- INPUT RESOLVER CARD -->
+        <div class="card" id="overview">
             <div id="error-alert" class="alert">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                 <span id="error-text">An error occurred. Please check the URL and cookies.</span>
             </div>
 
             <div class="form-group">
-                <label for="terabox-url">TeraBox Shared Link</label>
+                <label for="terabox-url">Paste your TeraBox link here</label>
                 <div class="input-wrapper">
                     <input type="text" id="terabox-url" class="input-control" placeholder="https://1024terabox.com/s/1tRNgRcUNrNHvt8SyRIZtNA" value="https://www.terabox.app/sharing/link?surl=C2vi23DliOUVVyJ-VvCNdw">
                 </div>
@@ -692,7 +1070,7 @@
                 <svg id="advanced-arrow" width="12" height="12" viewBox="0 0 24 24" style="transition: transform 0.2s; transform: rotate(0deg); fill: currentColor;">
                     <path d="M7 10l5 5 5-5z"/>
                 </svg>
-                <span>Advanced Settings (Cookies)</span>
+                <span>Advanced settings (API Configuration)</span>
             </div>
 
             <div id="advanced-panel" class="advanced-panel">
@@ -700,29 +1078,65 @@
                     <label for="ndus-cookie">Session Cookie (ndus)</label>
                     <input type="text" id="ndus-cookie" class="input-control" placeholder="Enter your ndus session cookie" value="">
                     <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; font-style: italic;">
-                        If you leave this blank, the folder contents will load, but playing/downloading files requires pasting your active ndus cookie.
+                        If you leave this blank, folder files will resolve, but playing/downloading requires your active ndus token.
                     </p>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label for="koyeb-api-url">Koyeb Backend API URL</label>
+                    <label for="koyeb-api-url">API Endpoint URL</label>
                     <input type="text" id="koyeb-api-url" class="input-control" placeholder="https://your-backend.koyeb.app" value="">
                     <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; font-style: italic;">
-                        If hosting on Vercel, enter your Koyeb backend app URL here (e.g., https://your-backend.koyeb.app). Keep empty when running locally.
+                        If hosting on Vercel, enter your Railway or Koyeb backend API URL base here. Keep empty when running locally.
                     </p>
                 </div>
             </div>
 
             <button id="btn-resolve" class="btn" onclick="resolveLink()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                <span>Resolve TeraBox Link</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Play Video</span>
             </button>
 
             <div id="loading" class="loading-container">
                 <div class="spinner"></div>
-                <div class="loading-text">Extracting token & fetching metadata...</div>
+                <div class="loading-text">Resolving secure TeraBox direct stream URL...</div>
+            </div>
+
+            <div class="feature-badge-row">
+                <div class="feature-badge">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    <span>No Login Required</span>
+                </div>
+                <div class="feature-badge">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    <span>HD Streaming</span>
+                </div>
+                <div class="feature-badge">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    <span>Secure & Private</span>
+                </div>
+                <div class="feature-badge">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    <span>Mobile Ready</span>
+                </div>
             </div>
         </div>
 
+        <!-- STATISTICS ROW -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number">2.8M+</div>
+                <div class="stat-label">Videos Streamed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">186+</div>
+                <div class="stat-label">Countries Served</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime Guaranteed</div>
+            </div>
+        </div>
+
+        <!-- RESOLVED STREAM CARD -->
         <div id="result-card" class="card">
             <div id="cookie-warning" class="alert-warning">
                 <div class="warning-header-row">
@@ -730,7 +1144,7 @@
                     <span>Direct streaming is locked without cookies on external sites. You have two options:</span>
                 </div>
                 <div style="margin-left: 2rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; width: calc(100% - 2rem);">
-                    <p>Option 1: Paste your <strong>ndus</strong> cookie in <strong>Advanced Settings</strong> above and click <strong>Resolve TeraBox Link</strong> to play/download directly here.</p>
+                    <p>Option 1: Paste your <strong>ndus</strong> cookie in <strong>Advanced settings</strong> above and click <strong>Play Video</strong> again to play/download directly here.</p>
                     <p>Option 2: Watch immediately in your browser on the official guest player (no login or cookies required) by clicking the button below:</p>
                     
                     <button class="btn btn-outline" onclick="openOfficialPlayer()" style="margin-top: 0.5rem; border-color: var(--warning); color: #fef08a; background: rgba(245, 158, 11, 0.05); align-self: flex-start; width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem; border-radius: 8px;">
@@ -801,16 +1215,240 @@
                 </div>
             </div>
         </div>
+
+        <!-- PROCESS GUIDE SECTION -->
+        <section id="how-to-play">
+            <h2 class="section-title">How to Play TeraBox Videos Online</h2>
+            <p class="section-subtitle">3 simple steps to stream any TeraBox video for free in your browser.</p>
+            
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-num">01</div>
+                    <div class="process-heading">Copy TeraBox Link</div>
+                    <div class="process-desc">Open the TeraBox app or web portal, find your shared video file, tap 'Share', and copy the generated link to your clipboard.</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-num">02</div>
+                    <div class="process-heading">Paste & Submit</div>
+                    <div class="process-desc">Navigate to Mizofy, paste the copied TeraBox share URL into the input field at the top, and click the 'Play Video' button.</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-num">03</div>
+                    <div class="process-heading">Watch Instantly</div>
+                    <div class="process-desc">The video parses in 2–5 seconds and streams directly in full HD. Bypasses speed throttling, app installations, and page buffering.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE MIZOFY -->
+        <section id="why-choose">
+            <h2 class="section-title">Everything You Need to Stream</h2>
+            <p class="section-subtitle">Mizofy is engineered for speed, privacy, and a premium experience across all devices.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <h3>Instant Streaming</h3>
+                    <p>Links process in 2–5 seconds. Zero waiting times, zero guest limits, and zero throttled speeds.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>No Registration</h3>
+                    <p>No email, no accounts, and no passwords required. Bypass the TeraBox compulsory login wall natively.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                    </div>
+                    <h3>Multi-Domain Support</h3>
+                    <p>Works seamlessly with terabox.com, 1024terabox.com, nephobox.com, 4funbox.com, mirrobox.com, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    </div>
+                    <h3>Mobile Optimized</h3>
+                    <p>Perfect responsive layouts tailored for iPhone, Android, and tablets down to 320px screen width.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPETITOR COMPARISON -->
+        <section>
+            <h2 class="section-title">Mizofy vs The Competition</h2>
+            <p class="section-subtitle">See why Mizofy is the #1 choice for TeraBox streams in USA, Canada, and UK.</p>
+            
+            <div class="comp-table-container">
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Feature</th>
+                            <th class="mizofy-col">Mizofy (Best Choice)</th>
+                            <th>iTeraPlay</th>
+                            <th>TeraDownloader</th>
+                            <th>TeraboxFast</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">No Login Required</td>
+                            <td class="mizofy-col">✅ Yes</td>
+                            <td>✅ Yes</td>
+                            <td>❌ No</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Cloud Cookie Rotation (No 4000020 Errors)</td>
+                            <td class="mizofy-col">✅ Yes</td>
+                            <td>❌ No (Fails often)</td>
+                            <td>❌ No</td>
+                            <td>❌ No (Rate limits)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Adaptive HD Playback</td>
+                            <td class="mizofy-col">✅ Yes</td>
+                            <td>❌ No (Laggy)</td>
+                            <td>❌ No</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Multi-File Folder Parsing</td>
+                            <td class="mizofy-col">✅ Yes</td>
+                            <td>❌ No</td>
+                            <td>❌ No</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Ad-Free Video Player</td>
+                            <td class="mizofy-col">✅ Yes</td>
+                            <td>❌ No (Heavy Ads)</td>
+                            <td>❌ No</td>
+                            <td>❌ No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SUPPORTED DOMAINS -->
+        <section>
+            <h2 class="section-title">Supported TeraBox Domains</h2>
+            <p class="section-subtitle">Mizofy works with every regional TeraBox mirror and link format.</p>
+            
+            <div class="mirror-grid">
+                <div class="mirror-card">
+                    <div class="mirror-icon">🌐</div>
+                    <div class="mirror-name">terabox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">📱</div>
+                    <div class="mirror-name">teraboxapp.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">⚡</div>
+                    <div class="mirror-name">1024terabox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">☁️</div>
+                    <div class="mirror-name">nephobox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">🆓</div>
+                    <div class="mirror-name">freeterabox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">🎬</div>
+                    <div class="mirror-name">4funbox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">🪞</div>
+                    <div class="mirror-name">mirrobox.com</div>
+                </div>
+                <div class="mirror-card">
+                    <div class="mirror-icon">🔗</div>
+                    <div class="mirror-name">teraboxlink.com</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about the Mizofy online player.</p>
+            
+            <div class="faq-list">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>What is Mizofy?</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                    <div class="faq-answer">
+                        Mizofy is a free, high-performance web tool that lets you play and download any video from TeraBox directly in your web browser. It acts as a link resolution engine, bypassing download limit walls, login gates, and compulsory app installations.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Why do other sites fail with verification check errno 4000020?</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                    <div class="faq-answer">
+                        TeraBox strictly limits guest access and blocks connections that resolve multiple links from the same IP address. While other tools (like iTeraPlay) crash with rate-limits and `errno 4000020` errors, Mizofy utilizes an **Active Cloud-Synchronized Cookie Pool Rotation System**. It automatically detects blocks, marks blocked accounts on cooldown, and switches instantly to a fresh working session, giving you uninterrupted playback.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Does Mizofy require installing the TeraBox app?</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                    <div class="faq-answer">
+                        No. You can resolve, stream, and download files directly inside Chrome, Safari, Firefox, or Edge on Android, iPhone, PC, or iPad without downloading the TeraBox app or registering an account.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Is there a download size or bandwidth limit?</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                    <div class="faq-answer">
+                        No. Mizofy offers unlimited free resolutions. When streaming or downloading, your data flows directly from high-speed TeraBox CDNs, utilizing your backend server's session authentication, ensuring maximum speed.
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>How can I host Mizofy on my own domain?</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </div>
+                    <div class="faq-answer">
+                        You can deploy our static frontend directly to Vercel or Hostinger, and run the Python Flask API backend on a VPS or Railway. Check the `/docs` route on your hosted server for details on integration.
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">DMCA Policy</a>
+            <a href="/docs" class="footer-link">API Docs</a>
+        </div>
+        <div>
+            &copy; 2026 Mizofy. Made with ❤️ for TeraBox users worldwide.
+        </div>
+        <div class="disclaimer">
+            Disclaimer: Mizofy does not host or store any media content on its servers. All videos and files are hosted and delivered by third-party services including TeraBox and its mirror networks. This tool provides a proxy interface for publicly shared links.
+        </div>
+    </footer>
 
     <div id="toast" class="toast">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="toast-message">Copied to clipboard!</span>
     </div>
-
-    <footer>
-        &copy; 2026 TeraStream. Engineered for high-speed link bypasses.
-    </footer>
 
     <script>
         let isAdvancedOpen = false;
@@ -846,6 +1484,15 @@
             } else {
                 panel.style.display = 'none';
                 arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleFaq(item) {
+            const isActive = item.classList.contains('active');
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) {
+                item.classList.add('active');
             }
         }
 
