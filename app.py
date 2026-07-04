@@ -8,8 +8,10 @@ from functools import wraps
 from flask import Flask, request, jsonify, Response, render_template
 import requests
 from pymongo import MongoClient
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type"])
 
 # Server-side stores for mapping random tokens to actual URLs
 resolved_links_store = {}

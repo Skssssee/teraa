@@ -703,6 +703,13 @@
                         If you leave this blank, the folder contents will load, but playing/downloading files requires pasting your active ndus cookie.
                     </p>
                 </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="koyeb-api-url">Koyeb Backend API URL</label>
+                    <input type="text" id="koyeb-api-url" class="input-control" placeholder="https://teraa-skssssee.koyeb.app" value="">
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; font-style: italic;">
+                        If hosting on Vercel, enter your Koyeb backend app URL here (e.g., https://teraa-skssssee.koyeb.app). Keep empty when running locally.
+                    </p>
+                </div>
             </div>
 
             <button id="btn-resolve" class="btn" onclick="resolveLink()">
@@ -810,6 +817,15 @@
         let resolvedDlink = "";
         let currentFilename = "video.mp4";
         let fileList = [];
+        let API_BASE_URL = localStorage.getItem('koyeb_api_url') || '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedUrl = localStorage.getItem('koyeb_api_url') || '';
+            const inputField = document.getElementById('koyeb-api-url');
+            if (inputField) {
+                inputField.value = storedUrl;
+            }
+        });
 
         function toggleAdvanced() {
             const panel = document.getElementById('advanced-panel');
@@ -858,6 +874,10 @@
         async function resolveLink() {
             const urlInput = document.getElementById('terabox-url').value.trim();
             const ndusInput = document.getElementById('ndus-cookie').value.trim();
+            const koyebApiInput = document.getElementById('koyeb-api-url').value.trim();
+            
+            localStorage.setItem('koyeb_api_url', koyebApiInput);
+            API_BASE_URL = koyebApiInput;
             
             if (!urlInput) {
                 showError("Please enter a valid TeraBox shared link.");
@@ -873,7 +893,7 @@
             videoPlayer.pause();
 
             try {
-                const fetchUrl = `/api/resolve?url=${encodeURIComponent(urlInput)}&ndus=${encodeURIComponent(ndusInput)}`;
+                const fetchUrl = `${API_BASE_URL}/api/resolve?url=${encodeURIComponent(urlInput)}&ndus=${encodeURIComponent(ndusInput)}`;
                 const response = await fetch(fetchUrl);
                 const data = await response.json();
 
@@ -1024,7 +1044,7 @@
 
             if (isVideo && resolvedDlink) {
                 cookieWarning.style.display = 'none';
-                const proxyStreamUrl = resolvedDlink; // Alread /api/download?id=uuid_token
+                const proxyStreamUrl = resolvedDlink.startsWith('http') ? resolvedDlink : API_BASE_URL + resolvedDlink;
                 
                 const source = document.getElementById('video-source');
                 source.src = proxyStreamUrl;
@@ -1044,7 +1064,11 @@
                 }
                 
                 if (file.thumbs && (file.thumbs.url3 || file.thumbs.url2 || file.thumbs.url1)) {
-                    thumbImg.src = file.thumbs.url3 || file.thumbs.url2 || file.thumbs.url1;
+                    let thumbUrl = file.thumbs.url3 || file.thumbs.url2 || file.thumbs.url1;
+                    if (thumbUrl && !thumbUrl.startsWith('http')) {
+                        thumbUrl = API_BASE_URL + thumbUrl;
+                    }
+                    thumbImg.src = thumbUrl;
                 } else {
                     thumbImg.src = "https://placehold.co/600x400/140f1e/f3f4f6?text=" + encodeURIComponent(currentFilename);
                 }
@@ -1056,7 +1080,7 @@
                 showError("To play or download this video, please paste your ndus cookie in Advanced Settings and click Resolve TeraBox Link again.");
                 return;
             }
-            const proxyDlUrl = resolvedDlink + "&mode=attachment";
+            const proxyDlUrl = (resolvedDlink.startsWith('http') ? resolvedDlink : API_BASE_URL + resolvedDlink) + "&mode=attachment";
             window.location.href = proxyDlUrl;
             showToast("Starting download...");
         }
