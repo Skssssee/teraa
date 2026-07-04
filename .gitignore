@@ -1,0 +1,9 @@
+stored_cookies.json
+stored_cookies.txt
+__pycache__/
+*.pyc
+scratch/
+.venv/
+venv/
+.idea/
+.vscode/
