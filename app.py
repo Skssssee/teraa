@@ -606,8 +606,9 @@ def download():
         r = session.get(dlink, headers=headers, stream=True, timeout=30)
         
         def generate():
-            for chunk in r.iter_content(chunk_size=4096 * 8):
-                yield chunk
+            for chunk in r.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    yield chunk
                 
         resp_headers = {}
         for h in ['Content-Type', 'Content-Length', 'Content-Range', 'Accept-Ranges']:
@@ -662,4 +663,4 @@ def thumbnail():
 
 if __name__ == '__main__':
     os.makedirs('templates', exist_ok=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
