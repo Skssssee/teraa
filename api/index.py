@@ -3,9 +3,21 @@ import base64
 import requests
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def home():
+    try:
+        # Guarantee the frontend loads by explicitly serving index.html from the root folder
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        index_path = os.path.join(root_dir, 'index.html')
+        with open(index_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        return f"Frontend Error: {str(e)}", 500
 
 @app.route('/api/resolve', methods=['GET'])
 def resolve():
