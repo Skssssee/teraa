@@ -15,12 +15,6 @@ app = Flask(__name__)
 CORS(app, expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type"])
 
 # Server-side stores for mapping random tokens to actual URLs
-CLOUDFLARE_WORKERS = [
-    "https://mizofy-proxy.engkumar087.workers.dev",
-    # You can add future Cloudflare Worker URLs below, separated by commas:
-    # "https://proxy-2.engkumar087.workers.dev",
-]
-
 resolved_links_store = {}
 resolved_thumbnails_store = {}
 
@@ -548,11 +542,7 @@ def resolve():
                             "filename": file_item.get("server_filename", "video.mp4")
                         }
                         
-                        if CLOUDFLARE_WORKERS:
-                            selected_worker = random.choice(CLOUDFLARE_WORKERS)
-                            file_item["dlink"] = f"{selected_worker}?id={token}"
-                        else:
-                            file_item["dlink"] = f"/api/download?id={token}"
+                        file_item["dlink"] = f"/api/download?id={token}"
                     
                     thumbs = file_item.get("thumbs")
                     if thumbs and isinstance(thumbs, dict):
