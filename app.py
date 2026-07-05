@@ -394,6 +394,18 @@ def resolve():
                 streams = f_data["data"]["streams"]
                 # Grab 480p stream first as requested, fallback to others
                 best_stream = streams.get("480p") or streams.get("360p") or streams.get("720p") or streams.get("1080p")
+                
+                # Crack the Base64 to bypass the Vercel redirect CORS issue
+                import base64
+                if best_stream and 'api/redirect?data=' in best_stream:
+                    try:
+                        b64_data = best_stream.split('api/redirect?data=')[1]
+                        # Fix padding if missing
+                        b64_data += "=" * ((4 - len(b64_data) % 4) % 4)
+                        best_stream = base64.b64decode(b64_data).decode('utf-8')
+                    except Exception:
+                        pass
+                
                 if best_stream:
                     # Translate JSON structure so the frontend doesn't break
                     return jsonify({
