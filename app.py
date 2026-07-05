@@ -14,6 +14,8 @@ app = Flask(__name__)
 CORS(app, expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type"])
 
 # Server-side stores for mapping random tokens to actual URLs
+CLOUDFLARE_WORKER_URL = ""  # e.g., "https://mizofy-proxy.your-subdomain.workers.dev"
+
 resolved_links_store = {}
 resolved_thumbnails_store = {}
 
@@ -540,7 +542,11 @@ def resolve():
                             "root_domain": "terabox.app",
                             "filename": file_item.get("server_filename", "video.mp4")
                         }
-                        file_item["dlink"] = f"/api/download?id={token}"
+                        
+                        if CLOUDFLARE_WORKER_URL:
+                            file_item["dlink"] = f"{CLOUDFLARE_WORKER_URL}?id={token}"
+                        else:
+                            file_item["dlink"] = f"/api/download?id={token}"
                     
                     thumbs = file_item.get("thumbs")
                     if thumbs and isinstance(thumbs, dict):
@@ -565,6 +571,14 @@ def resolve():
             
     # If all sessions in the pool failed / exhausted
     return jsonify({"error": last_error, "errno": last_errno}), 403
+
+@app.route('/api/get_raw_link')
+def get_raw_link():
+    """Internal endpoint for Cloudflare Workers to fetch raw links securely."""
+    token = request.args.get('id')
+    if not token or token not in resolved_links_store:
+        return jsonify({"error": "Expired or invalid ID"}), 404
+    return jsonify(resolved_links_store[token])
 
 @app.route('/api/download')
 def download():
