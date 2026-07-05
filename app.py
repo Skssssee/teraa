@@ -385,7 +385,7 @@ def resolve():
         
     # --- EXTERNAL API PRIMARY RESOLVER ---
     try:
-        encoded_url = urllib.parse.quote(url)
+        encoded_url = urllib.parse.quote(url, safe='')
         friend_api_url = f"https://tera-download-rose.vercel.app/api/extract?url={encoded_url}"
         f_res = requests.get(friend_api_url, timeout=10)
         if f_res.status_code == 200:
