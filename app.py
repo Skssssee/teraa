@@ -397,6 +397,7 @@ def resolve():
                 if best_stream:
                     # Translate JSON structure so the frontend doesn't break
                     return jsonify({
+                        "errno": 0,
                         "list": [
                             {
                                 "server_filename": f_data["data"].get("file_name", "video.mp4"),
