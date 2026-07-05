@@ -421,13 +421,6 @@ def resolve():
                                 "thumbs": {
                                     "url3": f_data["data"].get("thumbnail", "")
                                 }
-                            }
-                        ]
-                    })
-    except Exception as e:
-        print(f"External API failed, falling back to local scraping: {e}")
-    # --- END EXTERNAL API PRIMARY RESOLVER ---
-        
     surl = extract_surl(url)
     if not surl:
         return jsonify({"error": "Could not extract share key (surl) from URL", "errno": -1}), 400
