@@ -16,7 +16,9 @@ CORS(app, expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "C
 
 # Server-side stores for mapping random tokens to actual URLs
 CLOUDFLARE_WORKERS = [
-    # Add your worker URLs here like: "https://worker1.your-subdomain.workers.dev", "https://worker2.your-subdomain.workers.dev"
+    "https://mizofy-proxy.engkumar087.workers.dev",
+    # You can add future Cloudflare Worker URLs below, separated by commas:
+    # "https://proxy-2.engkumar087.workers.dev",
 ]
 
 resolved_links_store = {}
