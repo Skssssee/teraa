@@ -4,9 +4,39 @@ import requests
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import os
+import uuid
+import json
+from pymongo import MongoClient
 
 app = Flask(__name__)
 CORS(app)
+
+# MongoDB Configuration
+MONGO_URI = os.environ.get("MONGO_URI", "")
+db_client = None
+db = None
+api_collection = None
+
+if MONGO_URI:
+    try:
+        db_client = MongoClient(MONGO_URI)
+        db = db_client['terastream_db']
+        api_collection = db['api_pool']
+    except Exception as e:
+        print("MongoDB connection error:", e)
+
+def get_active_api():
+    if not api_collection:
+        # Fallback to the original friend API if MongoDB is not connected
+        return "https://tera-download-rose.vercel.app/api/extract"
+        
+    active = api_collection.find_one({"active": True})
+    if active:
+        return active.get("url")
+        
+    # If no active API is found, fallback
+    return "https://tera-download-rose.vercel.app/api/extract"
+
 
 @app.route('/')
 def home():
@@ -26,9 +56,18 @@ def resolve():
         return jsonify({"error": "Missing URL parameter", "errno": -1}), 400
         
     try:
+        # Dynamically fetch the active API from MongoDB
+        active_api_base = get_active_api()
+        
         # Properly encode the URL so the friend API doesn't crash
         encoded_url = urllib.parse.quote(url, safe='')
-        friend_api_url = f"https://tera-download-rose.vercel.app/api/extract?url={encoded_url}"
+        
+        # Ensure we append ?url= properly
+        if "?" in active_api_base:
+            friend_api_url = f"{active_api_base}&url={encoded_url}"
+        else:
+            friend_api_url = f"{active_api_base}?url={encoded_url}"
+
         
         f_res = requests.get(friend_api_url, timeout=10)
         if f_res.status_code != 200:
@@ -85,3 +124,109 @@ def proxy_m3u8():
         })
     except Exception as e:
         return str(e), 500
+
+
+# ==========================================
+# ADMIN PANEL ENDPOINTS (API MANAGER)
+# ==========================================
+def verify_admin(req):
+    auth_header = req.headers.get("Authorization")
+    if not auth_header:
+        return False
+    try:
+        auth_type, credentials = auth_header.split(" ")
+        decoded = base64.b64decode(credentials).decode("utf-8")
+        username, password = decoded.split(":")
+        
+        # Standard admin credentials (could be env vars)
+        admin_user = os.environ.get("ADMIN_USER", "admin123")
+        admin_pass = os.environ.get("ADMIN_PASS", "admin123")
+        
+        return username == admin_user and password == admin_pass
+    except Exception:
+        return False
+
+@app.route('/api/admin/apis', methods=['GET'])
+def get_apis():
+    if not verify_admin(request):
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    if not api_collection:
+        return jsonify({
+            "source": "No Database",
+            "status": "inactive",
+            "pool": []
+        })
+        
+    apis = list(api_collection.find({}, {"_id": 0}))
+    return jsonify({
+        "source": "MongoDB",
+        "status": "active",
+        "pool": apis
+    })
+
+@app.route('/api/admin/apis', methods=['POST'])
+def add_or_update_api():
+    if not verify_admin(request):
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    if not api_collection:
+        return jsonify({"error": "MongoDB is not configured"}), 500
+        
+    data = request.json
+    api_id = data.get('id')
+    name = data.get('name', 'Unnamed API')
+    url = data.get('url', '')
+    active = data.get('active', False)
+    
+    if not url:
+        return jsonify({"error": "URL is required"}), 400
+        
+    # If this one is set to active, deactivate all others first
+    if active:
+        api_collection.update_many({}, {"$set": {"active": False}})
+        
+    if api_id:
+        # Edit existing
+        api_collection.update_one(
+            {"id": api_id},
+            {"$set": {"name": name, "url": url, "active": active}}
+        )
+    else:
+        # Create new
+        api_id = uuid.uuid4().hex
+        api_collection.insert_one({
+            "id": api_id,
+            "name": name,
+            "url": url,
+            "active": active
+        })
+        
+    return jsonify({"success": True, "id": api_id})
+
+@app.route('/api/admin/apis/<api_id>', methods=['DELETE'])
+def delete_api(api_id):
+    if not verify_admin(request):
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    if not api_collection:
+        return jsonify({"error": "MongoDB is not configured"}), 500
+        
+    api_collection.delete_one({"id": api_id})
+    return jsonify({"success": True})
+
+@app.route('/api/admin/apis/<api_id>/active', methods=['POST'])
+def set_active_api(api_id):
+    if not verify_admin(request):
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    if not api_collection:
+        return jsonify({"error": "MongoDB is not configured"}), 500
+        
+    # Deactivate all
+    api_collection.update_many({}, {"$set": {"active": False}})
+    
+    # Activate the target
+    api_collection.update_one({"id": api_id}, {"$set": {"active": True}})
+    
+    return jsonify({"success": True})
