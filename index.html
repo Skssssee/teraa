@@ -21,6 +21,8 @@
     
     <!-- ArtPlayer CDN -->
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+    <!-- HLS.js for m3u8 streams -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
     <style>
         :root {
@@ -1334,8 +1336,8 @@
         let fileList = [];
         let art = null;
 
-        // Auto-detect backend host
-        let API_BASE_URL = "https://web-production-bff2d.up.railway.app";
+        // Default to same-origin since the Python backend is now hosted on Vercel alongside the frontend
+        let API_BASE_URL = "";
         if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
             API_BASE_URL = "";
         }
@@ -1410,10 +1412,29 @@
             
             document.getElementById('player-container-wrapper').style.display = 'block';
             
+            const isHls = url.includes('api/redirect') || url.includes('.m3u8');
+            
             art = new Artplayer({
                 container: '#artplayer-container',
                 url: url,
-                type: 'mp4',
+                type: isHls ? 'm3u8' : 'mp4',
+                customType: {
+                    m3u8: function (video, url) {
+                        if (Hls.isSupported()) {
+                            const hls = new Hls();
+                            hls.loadSource(url);
+                            hls.attachMedia(video);
+                            art.on('destroy', () => hls.destroy());
+                        } else {
+                            const canPlay = video.canPlayType('application/vnd.apple.mpegurl');
+                            if (canPlay === 'probably' || canPlay === 'maybe') {
+                                video.src = url;
+                            } else {
+                                showError('Your browser does not support HLS video playback.');
+                            }
+                        }
+                    }
+                },
                 autoplay: false,
                 isLive: false,
                 aspectRatio: true,
