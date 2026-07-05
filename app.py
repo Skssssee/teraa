@@ -616,7 +616,8 @@ def download():
         r = session.get(dlink, headers=headers, stream=True, timeout=30)
         
         def generate():
-            for chunk in r.iter_content(chunk_size=65536):
+            # Bypass requests overhead and read raw bytes directly from the socket
+            for chunk in r.raw.stream(262144, decode_content=False):
                 if chunk:
                     yield chunk
                 
