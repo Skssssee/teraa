@@ -1336,8 +1336,8 @@
         let fileList = [];
         let art = null;
 
-        // Auto-detect backend host
-        let API_BASE_URL = "https://web-production-bff2d.up.railway.app";
+        // Default to same-origin since the Python backend is now hosted on Vercel alongside the frontend
+        let API_BASE_URL = "";
         if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
             API_BASE_URL = "";
         }
