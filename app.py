@@ -606,7 +606,7 @@ def download():
         r = session.get(dlink, headers=headers, stream=True, timeout=30)
         
         def generate():
-            for chunk in r.iter_content(chunk_size=1024 * 1024):
+            for chunk in r.iter_content(chunk_size=65536):
                 if chunk:
                     yield chunk
                 
