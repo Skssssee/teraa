@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/admin123", "destination": "/admin123.html" },
     { "source": "/docs", "destination": "/docs.html" }
   ]

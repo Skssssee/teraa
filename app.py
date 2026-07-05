@@ -407,13 +407,17 @@ def resolve():
                         pass
                 
                 if best_stream:
+                    # Hide the Cloudflare URL by pointing the frontend to our own proxy
+                    import urllib.parse
+                    proxy_url = f"/api/m3u8?url={urllib.parse.quote(best_stream)}"
+                    
                     # Translate JSON structure so the frontend doesn't break
                     return jsonify({
                         "errno": 0,
                         "list": [
                             {
                                 "server_filename": f_data["data"].get("file_name", "video.mp4"),
-                                "dlink": best_stream,
+                                "dlink": proxy_url,
                                 "thumbs": {
                                     "url3": f_data["data"].get("thumbnail", "")
                                 }
@@ -702,6 +706,21 @@ def thumbnail():
             
         r = session.get(url, headers=headers, timeout=15)
         return Response(r.content, status=r.status_code, content_type=r.headers.get('Content-Type', 'image/jpeg'))
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/api/m3u8', methods=['GET'])
+def proxy_m3u8():
+    url = request.args.get('url')
+    if not url:
+        return "Missing URL", 400
+    try:
+        # Download the tiny .m3u8 file and serve it directly to the frontend
+        # This hides the friend's domain from the frontend and the network tab's initial request
+        r = requests.get(url, timeout=10)
+        return Response(r.text, content_type='application/vnd.apple.mpegurl', headers={
+            'Access-Control-Allow-Origin': '*'
+        })
     except Exception as e:
         return str(e), 500
 
