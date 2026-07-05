@@ -568,14 +568,6 @@ def resolve():
     # If all sessions in the pool failed / exhausted
     return jsonify({"error": last_error, "errno": last_errno}), 403
 
-@app.route('/api/get_raw_link')
-def get_raw_link():
-    """Internal endpoint for Cloudflare Workers to fetch raw links securely."""
-    token = request.args.get('id')
-    if not token or token not in resolved_links_store:
-        return jsonify({"error": "Expired or invalid ID"}), 404
-    return jsonify(resolved_links_store[token])
-
 @app.route('/api/download')
 def download():
     token = request.args.get('id')
