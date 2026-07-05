@@ -383,6 +383,34 @@ def resolve():
     if not url:
         return jsonify({"error": "Missing URL parameter", "errno": -1}), 400
         
+    # --- EXTERNAL API PRIMARY RESOLVER ---
+    try:
+        encoded_url = urllib.parse.quote(url)
+        friend_api_url = f"https://tera-download-rose.vercel.app/api/extract?url={encoded_url}"
+        f_res = requests.get(friend_api_url, timeout=10)
+        if f_res.status_code == 200:
+            f_data = f_res.json()
+            if f_data.get("success") and "data" in f_data and "streams" in f_data["data"]:
+                streams = f_data["data"]["streams"]
+                # Grab highest quality stream
+                best_stream = streams.get("1080p") or streams.get("720p") or streams.get("480p") or streams.get("360p")
+                if best_stream:
+                    # Translate JSON structure so the frontend doesn't break
+                    return jsonify({
+                        "list": [
+                            {
+                                "server_filename": f_data["data"].get("file_name", "video.mp4"),
+                                "dlink": best_stream,
+                                "thumbs": {
+                                    "url3": f_data["data"].get("thumbnail", "")
+                                }
+                            }
+                        ]
+                    })
+    except Exception as e:
+        print(f"External API failed, falling back to local scraping: {e}")
+    # --- END EXTERNAL API PRIMARY RESOLVER ---
+        
     surl = extract_surl(url)
     if not surl:
         return jsonify({"error": "Could not extract share key (surl) from URL", "errno": -1}), 400
