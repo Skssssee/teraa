@@ -4,6 +4,7 @@ import urllib.parse
 import uuid
 import time
 import json
+import random
 from functools import wraps
 from flask import Flask, request, jsonify, Response, render_template
 import requests
@@ -14,7 +15,9 @@ app = Flask(__name__)
 CORS(app, expose_headers=["Content-Range", "Accept-Ranges", "Content-Length", "Content-Type"])
 
 # Server-side stores for mapping random tokens to actual URLs
-CLOUDFLARE_WORKER_URL = ""  # e.g., "https://mizofy-proxy.your-subdomain.workers.dev"
+CLOUDFLARE_WORKERS = [
+    # Add your worker URLs here like: "https://worker1.your-subdomain.workers.dev", "https://worker2.your-subdomain.workers.dev"
+]
 
 resolved_links_store = {}
 resolved_thumbnails_store = {}
@@ -543,8 +546,9 @@ def resolve():
                             "filename": file_item.get("server_filename", "video.mp4")
                         }
                         
-                        if CLOUDFLARE_WORKER_URL:
-                            file_item["dlink"] = f"{CLOUDFLARE_WORKER_URL}?id={token}"
+                        if CLOUDFLARE_WORKERS:
+                            selected_worker = random.choice(CLOUDFLARE_WORKERS)
+                            file_item["dlink"] = f"{selected_worker}?id={token}"
                         else:
                             file_item["dlink"] = f"/api/download?id={token}"
                     
