@@ -1,13 +1,8 @@
 {
   "cleanUrls": true,
-  "builds": [
-    { "src": "app.py", "use": "@vercel/python" },
-    { "src": "*.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "app.py" },
-    { "src": "/admin123", "dest": "admin123.html" },
-    { "src": "/docs", "dest": "docs.html" },
-    { "src": "/", "dest": "index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/admin123", "destination": "/admin123.html" },
+    { "source": "/docs", "destination": "/docs.html" }
   ]
 }
