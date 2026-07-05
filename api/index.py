@@ -49,6 +49,17 @@ def home():
     except Exception as e:
         return f"Frontend Error: {str(e)}", 500
 
+@app.route('/admin')
+def admin_panel():
+    try:
+        # Guarantee the admin panel loads by explicitly serving it
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        admin_path = os.path.join(root_dir, 'admin123.html')
+        with open(admin_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        return f"Admin Panel Error: {str(e)}", 500
+
 @app.route('/api/resolve', methods=['GET'])
 def resolve():
     url = request.args.get('url')
