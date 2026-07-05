@@ -392,8 +392,8 @@ def resolve():
             f_data = f_res.json()
             if f_data.get("success") and "data" in f_data and "streams" in f_data["data"]:
                 streams = f_data["data"]["streams"]
-                # Grab highest quality stream
-                best_stream = streams.get("1080p") or streams.get("720p") or streams.get("480p") or streams.get("360p")
+                # Grab 480p stream first as requested, fallback to others
+                best_stream = streams.get("480p") or streams.get("360p") or streams.get("720p") or streams.get("1080p")
                 if best_stream:
                     # Translate JSON structure so the frontend doesn't break
                     return jsonify({
